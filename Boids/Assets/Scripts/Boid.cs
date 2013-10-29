@@ -9,58 +9,59 @@ using System.Collections;
 
 public class Boid : MonoBehaviour
 {
-    public int directionForce = 10;
-    public int repelForce = 100;
-    public int repelRadius = 4; 
-    public int flockForce = 10;
-    public int drag = 5;
-    public float speedDif = 2f; 
-    public Vector3 direction;
-    private Vector3 clusterPostion;
-    private ClusterInfo clusterInfo;
-    private Collider[] hitColliders;
-    private Collider closest; 
+    public int DirectionForce = 10;
+    public int RepelForce = 40;
+    public int RepelRadius = 2; 
+    public int FlockForce = 10;
+    public int Drag = 20;
+    public float randomRange = 4f;
+    private float _randomSpeed;
+    public Vector3 Direction;
+    private Vector3 _clusterPostion;
+    private ClusterInfo _clusterInfo;
+    private Collider[] _hitColliders;
+    private Collider _closest; 
 
 
     // Use this for initialization
     private void Start()
     {
-        direction = Vector3.zero;
-        clusterInfo = transform.parent.GetComponent<ClusterInfo>();
-        speedDif = Random.Range(1f, speedDif+1f);
+        Direction = Vector3.zero;
+        _clusterInfo = transform.parent.GetComponent<ClusterInfo>();
+        _randomSpeed = Random.Range(1f, randomRange + 1);
     }
 
     void Update()
     {
 
-        hitColliders = Physics.OverlapSphere(transform.position, repelRadius);
+        _hitColliders = Physics.OverlapSphere(transform.position, RepelRadius);
 
-        if (hitColliders != null)
+        if (_hitColliders != null)
         {
-            if (hitColliders[0].transform.position != transform.position)
-                closest = hitColliders[0];
-            else if (hitColliders.Length == 2)
-                closest = hitColliders[1];
-            else if (hitColliders.Length > 2)
+            if (_hitColliders[0].transform.position != transform.position)
+                _closest = _hitColliders[0];
+            else if (_hitColliders.Length == 2)
+                _closest = _hitColliders[1];
+            else if (_hitColliders.Length > 2)
             {
             }
-            foreach (Collider hitCollider in hitColliders)
+            foreach (var hitCollider in _hitColliders)
             {
-                closest = hitCollider;
+                _closest = hitCollider;
                 if(hitCollider.tag == "boid")
-                    rigidbody.AddForce((transform.position - hitCollider.transform.position).normalized * (repelForce/2) * speedDif);
-                else rigidbody.AddForce((transform.position - hitCollider.transform.position).normalized * repelForce * 5 * speedDif);
+                    rigidbody.AddForce((transform.position - hitCollider.transform.position).normalized * (RepelForce/2) * _randomSpeed);
+                else rigidbody.AddForce((transform.position - hitCollider.transform.position).normalized * RepelForce * 5 * _randomSpeed);
             }
-            rigidbody.AddForce((transform.position - closest.transform.position).normalized * repelForce * speedDif);
+            rigidbody.AddForce((transform.position - _closest.transform.position).normalized * RepelForce * _randomSpeed);
         }
 
-        rigidbody.AddForce(clusterInfo.clusterDirection.normalized * directionForce * speedDif);
-        rigidbody.AddForce((clusterInfo.clusterCenter - transform.position).normalized * flockForce * speedDif);
-        direction = rigidbody.velocity;
-        if (direction != Vector3.zero)
-            transform.rotation = Quaternion.LookRotation(direction);
+        rigidbody.AddForce(_clusterInfo.ClusterDirection.normalized * DirectionForce * _randomSpeed);
+        rigidbody.AddForce((_clusterInfo.ClusterCenter - transform.position).normalized * FlockForce * _randomSpeed);
+        Direction = rigidbody.velocity;
+        if (Direction != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(Direction);
 
-        rigidbody.drag = Vector3.Magnitude(rigidbody.velocity) / drag;
+        rigidbody.drag = Vector3.Magnitude(rigidbody.velocity) / Drag;
 
 
     }

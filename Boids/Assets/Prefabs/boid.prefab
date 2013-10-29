@@ -94,12 +94,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09dd0f06b0aec7c41b7a11a640e1413c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionForce: 50
-  repelForce: 100
-  repelRadius: 4
-  flockForce: 50
-  drag: 50
-  direction: {x: 0, y: 0, z: 0}
+  DirectionForce: 20
+  RepelForce: 40
+  RepelRadius: 2
+  FlockForce: 10
+  Drag: 20
+  randomRange: 4
+  Direction: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

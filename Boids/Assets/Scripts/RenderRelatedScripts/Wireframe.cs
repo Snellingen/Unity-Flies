@@ -11,65 +11,65 @@ public class Wireframe : MonoBehaviour
     public bool AWrite = true;
     public bool Blend = true;
 
-    private Vector3[] lines;
-    private List<Vector3> linesArray;
-    private Material lineMaterial;
-    private MeshRenderer meshRenderer; 
+    private Vector3[] _lines;
+    private List<Vector3> _linesArray;
+    private Material _lineMaterial;
+    private MeshRenderer _meshRenderer; 
 
 	void Start ()
 	{
 	    renderer.enabled = false;
-	    meshRenderer = (MeshRenderer)GetComponent(typeof(MeshRenderer));
-	    if (!meshRenderer)
+	    _meshRenderer = (MeshRenderer)GetComponent(typeof(MeshRenderer));
+	    if (!_meshRenderer)
 	    {
             Debug.LogWarning("Warning: Found no MeshRenderer! Will try to create a new MeshRenderer.");
-	        meshRenderer = gameObject.AddComponent<MeshRenderer>();
+	        _meshRenderer = gameObject.AddComponent<MeshRenderer>();
 	    }
-	    meshRenderer.material = new Material("Shader \"Lines/Background\" { Properties { _Color (\"Main Color\", Color) = (1,1,1,1) } SubShader { Pass {" + 
+	    _meshRenderer.material = new Material("Shader \"Lines/Background\" { Properties { _Color (\"Main Color\", Color) = (1,1,1,1) } SubShader { Pass {" + 
             (ZWrite ? " ZWrite on " : " ZWrite off ") + (Blend ? " Blend SrcAlpha OneMinusSrcAlpha" : " ") +
             (AWrite ? " Colormask RGBA " : " ") + "Lighting Off Offset 1, 1 Color[_Color] }}}");
 
-        lineMaterial = new Material("Shader \"Lines/Colored Blended\" { SubShader { Pass { Blend SrcAlpha OneMinusSrcAlpha BindChannels { Bind \"Color\",color } ZWrite On Cull Front Fog { Mode Off } } } }")
+        _lineMaterial = new Material("Shader \"Lines/Colored Blended\" { SubShader { Pass { Blend SrcAlpha OneMinusSrcAlpha BindChannels { Bind \"Color\",color } ZWrite On Cull Front Fog { Mode Off } } } }")
         {
             hideFlags = HideFlags.HideAndDontSave,
             shader = {hideFlags = HideFlags.HideAndDontSave}
         };
 
-	    linesArray = new List<Vector3>();
-	    MeshFilter filter = GetComponent<MeshFilter>();
-	    Mesh mesh = filter.sharedMesh;
-	    Vector3[] vertices = mesh.vertices;
-	    int[] triangles = mesh.triangles;
+	    _linesArray = new List<Vector3>();
+	    var filter = GetComponent<MeshFilter>();
+	    var mesh = filter.sharedMesh;
+	    var vertices = mesh.vertices;
+	    var triangles = mesh.triangles;
 
 	    for (int i = 0; i < triangles.Length/ 3; i++)
 	    {
-            linesArray.Add(vertices[triangles[i * 3]]);
-            linesArray.Add(vertices[triangles[i * 3 + 1]]);
-            linesArray.Add(vertices[triangles[i * 3 + 2]]);
+            _linesArray.Add(vertices[triangles[i * 3]]);
+            _linesArray.Add(vertices[triangles[i * 3 + 1]]);
+            _linesArray.Add(vertices[triangles[i * 3 + 2]]);
 	    }
-	    lines = linesArray.ToArray();
+	    _lines = _linesArray.ToArray();
 	}
 
     void OnRenderObject()
     {
-        meshRenderer.sharedMaterial.color = BackgroundColor;
-        lineMaterial.SetPass(0);
+        _meshRenderer.sharedMaterial.color = BackgroundColor;
+        _lineMaterial.SetPass(0);
 
         GL.PushMatrix();
         GL.MultMatrix((transform.localToWorldMatrix));
         GL.Begin(GL.LINES);
         GL.Color(LineColor);
 
-        for (int i = 0; i < lines.Length/3; i++)
+        for (int i = 0; i < _lines.Length/3; i++)
         {
-            GL.Vertex(lines[i * 3]);
-            GL.Vertex(lines[i * 3 + 1]);
+            GL.Vertex(_lines[i * 3]);
+            GL.Vertex(_lines[i * 3 + 1]);
 
-            GL.Vertex(lines[i * 3 + 1]);
-            GL.Vertex(lines[i * 3 + 2]);
+            GL.Vertex(_lines[i * 3 + 1]);
+            GL.Vertex(_lines[i * 3 + 2]);
 
-            GL.Vertex(lines[i * 3 + 2]);
-            GL.Vertex(lines[i * 3]);
+            GL.Vertex(_lines[i * 3 + 2]);
+            GL.Vertex(_lines[i * 3]);
         }
         GL.End();
         GL.PopMatrix();

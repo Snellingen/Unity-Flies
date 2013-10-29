@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class CameraFollow : MonoBehaviour
+namespace Assets.Scripts
 {
-    public GameObject cluster; 
-    private ClusterInfo info; 
+    public class CameraFollow : MonoBehaviour
+    {
+        public GameObject cluster; 
+        private ClusterInfo _info; 
 
-	void Start ()
-	{
-	    info = cluster.GetComponent<ClusterInfo>();
-	}
+        void Start ()
+        {
+            _info = cluster.GetComponent<ClusterInfo>();
+        }
 	
-	void Update () {
-        camera.transform.LookAt(info.clusterCenter);
-	}
+        void Update () {
+            camera.transform.LookAt(_info.ClusterCenter);
+        }
+    }
 }

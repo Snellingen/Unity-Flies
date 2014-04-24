@@ -38,18 +38,18 @@ public class ClusterInfo : MonoBehaviour
         ClusterCenter /= _clusterObjects.Count;
 	    ClusterDirection /= _directions.Count;
 
-	    if (Input.GetKey(KeyCode.W))
-            ClusterDirection += new Vector3(0, 0, ControllerSpeed);
-        if (Input.GetKey(KeyCode.A))
-            ClusterDirection += new Vector3(-ControllerSpeed, 0, 0);
-        if (Input.GetKey(KeyCode.S))
-            ClusterDirection += new Vector3(0, 0, -ControllerSpeed);
-        if (Input.GetKey(KeyCode.D))
-            ClusterDirection += new Vector3(ControllerSpeed, 0, 0);
-        if (Input.GetKey(KeyCode.LeftShift))
-            ClusterDirection += new Vector3(0, ControllerSpeed, 0);
-        if (Input.GetKey(KeyCode.LeftControl))
-            ClusterDirection += new Vector3(0, -ControllerSpeed, 0);
+        //if (Input.GetKey(KeyCode.W))
+        //    ClusterDirection += new Vector3(0, 0, ControllerSpeed);
+        //if (Input.GetKey(KeyCode.A))
+        //    ClusterDirection += new Vector3(-ControllerSpeed, 0, 0);
+        //if (Input.GetKey(KeyCode.S))
+        //    ClusterDirection += new Vector3(0, 0, -ControllerSpeed);
+        //if (Input.GetKey(KeyCode.D))
+        //    ClusterDirection += new Vector3(ControllerSpeed, 0, 0);
+        //if (Input.GetKey(KeyCode.LeftShift))
+        //    ClusterDirection += new Vector3(0, ControllerSpeed, 0);
+        //if (Input.GetKey(KeyCode.LeftControl))
+        //    ClusterDirection += new Vector3(0, -ControllerSpeed, 0);
 
 
     }
